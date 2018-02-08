@@ -1,0 +1,19 @@
+{% for n in notes %}
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col">
+        <div class="well well-lg bg-light outer-well">
+            <a href="{% url 'existing_note' username=request.user.username codename=project.codename existing_id=n.id %}">{{ n.name }}</a>
+            <h></h>
+            <div id="{{ n.id }}{{ n.id }}" class="well well-sm pre-scrollable inner-well break-text"></div>
+            <script>
+                $("#{{ n.id }}{{ n.id }}").empty();
+                html = '{{ n.description }}';
+                console.log(html);
+                $("#{{ n.id }}{{ n.id }}").html(
+                    $('<div/>', {
+                        html: html
+                    }).text()
+                );
+            </script>
+        </div>
+    </div>
+{% endfor %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="col-container">
+        {% if notes %}
+            {% include "note.html" %}
+        {% endif %}
+    </div>
+{% endblock %}

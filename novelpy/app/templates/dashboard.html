@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container-fluid pre-scrollable">
+        <div class="col-sm-12 col-md-12 col-lg-8 col-lg-offset-2 row">
+        <label class="label label-success">Projects</label>
+                {% for p in projects %}
+                    <a href="{% url 'project' username=username codename=p.codename %}">
+                        <div class="well well-lg bg-light">{{ p.name }}</div>
+                    </a>
+                {% endfor %}
+        </div>
+    </div>
+{% endblock %}

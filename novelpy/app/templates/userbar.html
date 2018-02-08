@@ -1,0 +1,77 @@
+{% block userbar %}
+    <div class="container-fluid">
+        <div>
+        {% load static %}
+        <a href="{% url 'index' %}">
+            <img class="col-sm-1 col-md-1 col-lg-1" src="{% static 'favicon.ico' %}"
+                 style="width: 75px" alt="logo" align="middle">
+        </a>
+            {% if request.user.username %}
+                {% if project %}
+                <div class="btn-group col-sm-pull-1 col-sm-offset-1 col-md-pull-1 col-md-offset-2 col-lg-pull-1
+                col-lg-offset-3 pull-left" role="group">
+                    <button class="btn btn-default btn-lg" type="button"
+                            data-toggle="info-popover" data-container="body" data-placement="bottom"
+                            title="Show Notes" data-target="#note-popover-content" data-html="true" data-trigger="hover focus"
+                            onClick="location.href='{% url 'notes' username=request.user.username codename=project.codename %}'">Show notes</button>
+                    <script type="text/html" id="note-popover-content">
+                        <dl>
+                            <h4>
+                                <dd><small>- displays every note.</small></dd>
+                            </h4>
+                        </dl>
+                    </script>
+                    <script type="text/html" id="noteadd-popover-content">
+                        <dl>
+                            <h4>
+                                <dd><small>- adds new note to current project.</small></dd>
+                            </h4>
+                        </dl>
+                    </script>
+                    <button class="btn btn-default btn-lg" type="button"
+                            data-toggle="info-popover" data-container="body" data-placement="bottom"
+                            title="Add new Note" data-target="#noteadd-popover-content" data-html="true" data-trigger="hover focus"
+                            onClick="location.href='{% url 'note' username=request.user.username codename=project.codename %}'">New note</button>
+                </div>
+                {% else %}
+                <div class="btn-group btn-group col-sm-pull-1 col-sm-offset-1 col-md-pull-1 col-md-offset-2 col-lg-pull-1
+                col-lg-offset-3 pull-left">
+                    <button class="btn text-right btn-lg btn-default" type="button">
+                        <a href="{% url 'new_project' username=request.user.username %}">New Project</a>
+                    </button>
+                </div>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="col-sm-pull-1 col-md-offset-1 col-md-pull-1 col-lg-pull-2 pull-right dropdown">
+            <button class="btn text-center btn-lg btn-default" type="button" data-toggle="dropdown">
+            {% if request.user.username %}
+                {{ request.user.username }}
+            {% else %}
+                Unregistered
+            {% endif %}
+            <span class="caret"></span></button>
+            <div class="dropdown-menu">
+                <li class="dropdown-header glyphicon glyphicon-user"> Account</li>
+                {% if request.user.username %}
+                    <li class="dropdown-item">
+                        <a href="{% url 'dashboard' username=request.user.username %}">Dashboard</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a class="dropdown-item" href="{% url 'logout' %}">Log-out</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header glyphicon glyphicon-folder-open"> Projects</li>
+                    {% for p in projects %}
+                        <li class="dropdown-item">
+                            <a href="{% url 'project' username=request.user.username codename=p.codename %}">{{ p.name }}</a>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="dropdown-item {% if request.resolver_match.url_name == 'login' %}active{% endif %}"><a href="{% url 'login' %}">Login</a></li>
+                    <li class="dropdown-item {% if request.resolver_match.url_name == 'register' %}active{% endif %}"><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- end Bootstrap -->
+    <!-- JQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'default.css' %}"/>
+    <script src="{% static 'utils.js' %}"></script>
+    <!-- jQuery Text Editor -->
+    <script src="{% static 'jquery-te-1.4.0.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'jquery-te-1.4.0.css' %}"/>
+    <!-- end jQuery Text Editor -->
+    <!-- title and favicon -->
+    <title>novel.py</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <!-- title and favicon -->
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    {% include 'userbar.html' %}
+</div>
+{% block content %}{% endblock %}
+
+{% if messages %}
+    <div class="fixed-bottom navbar-fixed-bottom" >
+        {% for message in messages %}
+                <div class="alert
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}alert-danger{% endif %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}alert-success{% endif %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}alert-info{% endif %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}alert-warning{% endif %}
+                alert-dismissable">
+                    {{ message }}
+                    <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert" aria-label="close"></a>
+                </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+</body>
+</html>
